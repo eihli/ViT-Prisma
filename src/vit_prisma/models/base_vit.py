@@ -236,11 +236,10 @@ class HookedViT(HookedRootModule):
         Returns:
             torch.Tensor: The residual directions with shape (batch_size, d_model).
         """
-
-        answer_residual_directions = self.head.W_H[:,labels]  
+        answer_residual_directions = self.head.W_H[:, labels]
         answer_residual_directions = einops.rearrange(
-                        answer_residual_directions, "d_model ... -> ... d_model"
-                    )
+            answer_residual_directions, "d_model ... -> ... d_model"
+        )
         
         return answer_residual_directions
 

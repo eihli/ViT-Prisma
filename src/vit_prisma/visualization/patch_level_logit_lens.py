@@ -13,7 +13,7 @@ def display_grid_on_image_with_heatmap(
     patch_dictionary: Dict[int, List[Tuple[float, str, int, Optional[int]]]], 
     patch_size: int = 32, 
     layer_idx: int = -1, 
-    imagenet_class_to_emoji: Optional[Dict[int, str]] = None, 
+    imagenet_class_to_emoji: Optional[Dict[int, str]] = None,
     emoji_font_size: int = 30, 
     heatmap_mode: str = 'logit_values', 
     alpha_color: float = 0.6, 

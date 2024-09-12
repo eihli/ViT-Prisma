@@ -8,26 +8,20 @@ Inspired by TransformerLens. Some functions have been adapted from the Transform
 For more information on TransformerLens, visit: https://github.com/neelnanda-io/TransformerLens
 """
 
+import logging
 from typing import Dict, Iterator, List, Optional, Tuple, Union
 
-from jaxtyping import Float, Int
-
-import torch
-import logging
-
-import vit_prisma.utils.prisma_utils as utils
-from vit_prisma.utils.prisma_utils import Slice, SliceInput
-
 import einops
-from einops import rearrange, reduce, repeat
 import numpy as np
+import torch
+import vit_prisma.utils.prisma_utils as utils
 from fancy_einsum import einsum
+from jaxtyping import Float
 from typing_extensions import Literal
-
+from vit_prisma.utils.prisma_utils import Slice, SliceInput
 
 
 class ActivationCache:
-
     def __init__(
             self, cache_dict: Dict[str, torch.Tensor], model, has_batch_dim: bool = True
     ):
@@ -64,8 +58,8 @@ class ActivationCache:
         a string that can be used to recreate the object, but here we just return a string that
         describes the object.
         """
-        return f"ActivationCache with keys {list(self.cache_dict.keys())}"        
-    
+        return f"ActivationCache with keys {list(self.cache_dict.keys())}"
+
 
     def __getitem__(self, key) -> torch.Tensor:
         """Retrieve Cached Activations by Key or Shorthand.
@@ -91,7 +85,7 @@ class ActivationCache:
                     # Supports negative indexing on the layer dimension
                     key = (key[0], self.model.cfg.n_layers + key[1], *key[2:])
             return self.cache_dict[utils.get_act_name(*key)]
-    
+
     def __len__(self) -> int:
         """Length of the ActivationCache.
 
@@ -156,7 +150,7 @@ class ActivationCache:
             Iterator over the cache.
         """
         return self.cache_dict.__iter__()
-    
+
     def accumulated_resid(
         self,
         layer: Optional[int] = None,
@@ -384,7 +378,7 @@ class ActivationCache:
                 return components, labels
             else:
                 return components
-        
+
     def stack_head_results(
         self,
         layer: int = -1,
@@ -464,7 +458,7 @@ class ActivationCache:
             return components, labels
         else:
             return components
-        
+
     def compute_head_results(
         self,
     ):
@@ -488,7 +482,7 @@ class ActivationCache:
                 self[("z", l, "attn")],
                 self.model.blocks[l].attn.W_O,
             )
-        
+
     def stack_activation(
         self,
         activation_name: str,
@@ -733,7 +727,7 @@ class ActivationCache:
             scale = batch_slice.apply(scale)
 
         return residual_stack / scale
-    
+
     def get_full_resid_decomposition(
         self,
         layer: Optional[int] = None,
@@ -823,4 +817,3 @@ class ActivationCache:
             return residual_stack, labels
         else:
             return residual_stack
-

@@ -9,6 +9,8 @@ install_requires = [
     'einops',       # Test dependency
     'fancy_einsum', # Test dependency
     'plotly==5.19.0',
+    'matplotlib',   # Demo dependency
+    'wandb',   # Demo dependency
     'timm',         # Test dependency
     'transformers', # Test dependency
     'scikit-learn', # Test dependency
@@ -18,7 +20,7 @@ install_requires = [
 ]
 
 setup(
-    name='vit-prisma',
+    name='vit_prisma',
     version='2.0.0',
     author='Sonia Joseph',
     author_email='soniamollyjoseph@gmail.com',
